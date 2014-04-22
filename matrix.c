@@ -1,6 +1,6 @@
 
-#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 
@@ -55,7 +55,7 @@ void add(Matrix *_matrix, int position, MATRIX_ELEMENT_TYPE _data) {
         *((*_matrix) -> data + position) = _data;
         
     } else {
-        printf("[ERROR] El vector no ha sido inicializado.");
+        printf("[ERROR] The vector has not been initalized.");
     }
 }
 
@@ -104,10 +104,23 @@ void printSquareMatrix(Matrix _matrix) {
         }
         
     } else {
-        printf("[ERROR] El vector no ha sido inicializado.");
+        printf("[ERROR] The matrix has not been initialized.\n");
     }
-    
+}
 
+
+/*
+* Destroys the given matrix
+*/
+void destroyMatrix(Matrix *matrix) {
+    if (*matrix != NULL) {
+        free((*matrix) -> data);
+        free(*matrix);
+        
+        *matrix = NULL;
+        
+    } else
+        printf("[ERROR] The matrix has not been initialized.");
 }
 
 
@@ -123,11 +136,11 @@ MATRIX_ELEMENT_TYPE get(Matrix _matrix, int index) {
             output = *((_matrix) -> data + index);
             
         } else {
-            printf("[ERROR] No se ha definido ningun valor en la posicion: %d.\n", index);
+            printf("[ERROR] There is not data at the position: %d.\n", index);
         }
         
     } else {
-        printf("[ERROR] El vector no está inicicalizado.\n");
+        printf("[ERROR] The matrix has not been initalized.\n");
     }
     
     return output;

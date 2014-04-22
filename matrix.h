@@ -13,5 +13,5 @@ int getSize (Matrix _matrix);
 
 void printSquareMatrix(Matrix _matrix);
 
-
+void destroyMatrix(Matrix *matrix);
 

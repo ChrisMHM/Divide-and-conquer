@@ -9,11 +9,14 @@
 #include <stdio.h>
 #include "matrix.h"
 
-Matrix matrix1;
-Matrix matrix2;
+Matrix matrix1 = NULL;
+Matrix matrix2 = NULL;
 
 void printMenu() {
-    printf("\n1) Create Matrix\n\n0) Exit\n");
+    printf("\n\nDivide and Conquer\n\n");
+    printf("1) Create Matrix\n");
+    printf("4) Destroy Matrix\n\n");
+    printf("0) Exit\n\n");
 }
 
 
@@ -25,7 +28,7 @@ void printMenu() {
 void startMatrix() {
     int squareMatrixSize = 0;
     
-    printf("Enter the size of your square matrix:\n\n>");
+    printf("\nEnter the size of your square matrix:\n>");
     scanf("%d", &squareMatrixSize);
     
     int created1 = createSquareMatrix(&matrix1, squareMatrixSize);
@@ -35,15 +38,20 @@ void startMatrix() {
         fillSquareMatrixWithRandom(&matrix1);
         fillSquareMatrixWithRandom(&matrix2);
 
-        printf("\nMatrix 1: \n\n");
+        printf("\n\nMatrix 1: \n\n");
         printSquareMatrix(matrix1);
         
-        printf("\n Matrix 2: \n");
+        printf("\n\nMatrix 2: \n\n");
         printSquareMatrix(matrix2);
     
     } else {
         printf("[ERROR] There has been a problem creating the Matrix\n");
     }
+}
+
+void stopMatrix() {
+    destroyMatrix(&matrix1);
+    destroyMatrix(&matrix2);
 }
 
 
@@ -52,7 +60,7 @@ void manageMenu() {
     
     while (selectedOption != 0) {
         printMenu();
-        printf("\nEnter your option: \n\n> ");
+        printf("\nEnter your option:\n> ");
         scanf("%d", &selectedOption);
         
         switch (selectedOption) {
@@ -61,6 +69,10 @@ void manageMenu() {
                 break;
                 
             default:
+                break;
+                
+            case 4:
+                stopMatrix();
                 break;
         }
     }
