@@ -16,16 +16,21 @@ typedef struct {
 typedef _MATRIX * Matrix;
 
 
-int createMatrix(Matrix *matrix, int _size) {
+/**
+ * Creates a square Matrix
+ */
+int createSquareMatrix(Matrix *matrix, int rowSize) {
     unsigned long i = 0;
+    int matrixSize = rowSize * rowSize;
+    printf("matrix size: %d\n", matrixSize);
     
     if(*matrix == NULL) {
         *matrix = (Matrix) malloc (sizeof(Matrix));
         
-        (*matrix) -> data = (MATRIX_ELEMENT_TYPE*) malloc(_size * sizeof(MATRIX_ELEMENT_TYPE));
-        (*matrix) -> size = _size;
+        (*matrix) -> data = (MATRIX_ELEMENT_TYPE*) malloc(matrixSize * sizeof(MATRIX_ELEMENT_TYPE));
+        (*matrix) -> size = rowSize;
         
-        for (i = 0; i < _size; ++i) {
+        for (i = 0; i < matrixSize; ++i) {
             *((*matrix) -> data + i) = 0;
         }
         
@@ -37,12 +42,15 @@ int createMatrix(Matrix *matrix, int _size) {
 }
 
 
+
+/*
+ * Add an element into the matrix at the giving position
+ */
 void add(Matrix *_matrix, int position, MATRIX_ELEMENT_TYPE _data) {
 
     if (*_matrix != NULL) {
     }
 
-    
     if (*_matrix != NULL) {
         *((*_matrix) -> data + position) = _data;
         
@@ -52,18 +60,23 @@ void add(Matrix *_matrix, int position, MATRIX_ELEMENT_TYPE _data) {
 }
 
 
-void fillMatrixWithRandom(Matrix *_matrix) {
+/*
+* Fills a square matrix with random numbers
+*/
+void fillSquareMatrixWithRandom(Matrix *_matrix) {
     int vectorSize = getSize(*_matrix);
+    vectorSize *= vectorSize;
 //    srand(time(NULL));
     
-    for (unsigned long i = 0; i < vectorSize; i++) {
+    for (int i = 0; i < vectorSize; i++) {
         MATRIX_ELEMENT_TYPE randomNumber = rand() % vectorSize + 1;
         add(_matrix, i, randomNumber);
-        
     }
 }
 
-
+/*
+* Returns the rowSize of a square matrix
+*/
 int getSize (Matrix _matrix) {
     int _size = -1;
     
@@ -74,10 +87,12 @@ int getSize (Matrix _matrix) {
 }
 
 
-
-void printMatrix(Matrix _matrix) {
-    int matrixSize = getSize(_matrix);
-    int rowSize = sqrt(matrixSize);
+/*
+ * Prints a square matrix on console
+ */
+void printSquareMatrix(Matrix _matrix) {
+    int rowSize = getSize(_matrix);
+    int matrixSize = rowSize * rowSize;
     
     if (_matrix != NULL) {
         for (int i = 0; i < (matrixSize); i++) {
@@ -96,15 +111,19 @@ void printMatrix(Matrix _matrix) {
 }
 
 
+/*
+ * Returns the element of the matrix at the position given at parameter
+ */
 MATRIX_ELEMENT_TYPE get(Matrix _matrix, int index) {
     int output = -1;
-
+    int matrixSize = getSize(_matrix) * getSize(_matrix);
+    
     if (_matrix != NULL) {
-        if(index < getSize(_matrix)) {
+        if(index < matrixSize) {
             output = *((_matrix) -> data + index);
             
         } else {
-            printf("[ERROR] No se ha definido ningun valor en la posicion: %lu.\n", index);
+            printf("[ERROR] No se ha definido ningun valor en la posicion: %d.\n", index);
         }
         
     } else {

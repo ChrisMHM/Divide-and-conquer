@@ -5,15 +5,13 @@ typedef void * Matrix;
 
 void add(Matrix *_matrix, int position, MATRIX_ELEMENT_TYPE _data);
 
-int createMatrix(Matrix *matrix, int _size);
+int createSquareMatrix(Matrix *matrix, int _size);
 
-void fillMatrixWithRandom(Matrix *_matrix);
-
-int getSize (Matrix _matrix);
+void fillSquareMatrixWithRandom(Matrix *_matrix);
 
 int getSize (Matrix _matrix);
 
-void printMatrix(Matrix _matrix);
+void printSquareMatrix(Matrix _matrix);
 
 
 

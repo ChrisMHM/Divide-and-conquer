@@ -28,18 +28,18 @@ void startMatrix() {
     printf("Enter the size of your square matrix:\n\n>");
     scanf("%d", &squareMatrixSize);
     
-    int created1 = createMatrix(&matrix1, squareMatrixSize * squareMatrixSize);
-    int created2 = createMatrix(&matrix2, squareMatrixSize * squareMatrixSize);
+    int created1 = createSquareMatrix(&matrix1, squareMatrixSize);
+    int created2 = createSquareMatrix(&matrix2, squareMatrixSize);
     
     if (created1 == 1 && created2 == 1) {
-        fillMatrixWithRandom(&matrix1);
-        fillMatrixWithRandom(&matrix2);
+        fillSquareMatrixWithRandom(&matrix1);
+        fillSquareMatrixWithRandom(&matrix2);
 
         printf("\nMatrix 1: \n\n");
-        printMatrix(matrix1);
+        printSquareMatrix(matrix1);
         
         printf("\n Matrix 2: \n");
-        printMatrix(matrix2);
+        printSquareMatrix(matrix2);
     
     } else {
         printf("[ERROR] There has been a problem creating the Matrix\n");
