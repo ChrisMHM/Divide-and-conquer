@@ -34,9 +34,12 @@ void printMenu() {
 void startMatrix() {
     int squareMatrixSize = 0;
     
-    printf("\nEnter the size of your square matrix:\n>");
-    scanf("%d", &squareMatrixSize);
-    
+    // Validation metodology, the matrix size must be greater than 1 and the size must be power of 2
+    while (squareMatrixSize < 2 && ((squareMatrixSize & (squareMatrixSize - 1)) == 0)) {
+        printf("\nEnter the size of your square matrix:\n>");
+        scanf("%d", &squareMatrixSize);
+    }
+
     int created1 = createSquareMatrix(&matrix1, squareMatrixSize);
     int created2 = createSquareMatrix(&matrix2, squareMatrixSize);
     
