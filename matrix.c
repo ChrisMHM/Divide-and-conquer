@@ -49,9 +49,6 @@ int createSquareMatrix(Matrix *matrix, int rowSize) {
 void add(Matrix *_matrix, int position, MATRIX_ELEMENT_TYPE _data) {
 
     if (*_matrix != NULL) {
-    }
-
-    if (*_matrix != NULL) {
         *((*_matrix) -> data + position) = _data;
         
     } else {
@@ -129,8 +126,8 @@ MATRIX_ELEMENT_TYPE get(Matrix _matrix, int index) {
  * Assing the given value in the given matrix at the given row and column
  */
 void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data) {
-    int index = getSize(*matrix) * (row - 1) + column;
-    add(matrix, (index - 1), data);
+    int index = getSize(*matrix) * row + column;
+    add(matrix, index, data);
 }
 
 
@@ -138,8 +135,8 @@ void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data) 
  * Get the given value in the given matrix at the given row and column
  */
 void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data) {
-    int index = getSize(matrix) * (row - 1) + column;
-    *data = get(matrix, (index - 1));
+    int index = getSize(matrix) * (row) + column;
+    *data = get(matrix, (index));
 }
 
 
@@ -148,12 +145,29 @@ void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data) {
  */
 void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
     int matrixSize = getSize(matrix1);
+    int container =0;
+    
+    createSquareMatrix(matrixResult, matrixSize);
     
     if (matrixSize > 2) {
-        printf("I have to divide by n/2 = %d\n", matrixSize);
+        // TODO
     
     } else {
-        printf("Trivial case n= %d\n", matrixSize);
+        int value1, value2;
+        
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                for (int k= 0; k < matrixSize; k++) {
+                    getValue(matrix1, j, k, &value1);
+                    getValue(matrix2, k, i, &value2);
+                    container += value1 * value2;
+                }
+                
+                assingValue(matrixResult, j, i, container);
+                container = 0;
+            }
+        }
     }
 }
+
 
