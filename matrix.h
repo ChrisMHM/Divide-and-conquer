@@ -11,10 +11,10 @@ void fillSquareMatrixWithRandom(Matrix *_matrix);
 
 int getSize (Matrix _matrix);
 
-void printSquareMatrix(Matrix _matrix);
-
 void destroyMatrix(Matrix *matrix);
 
 void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data);
 
 void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data);
+
+void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult);

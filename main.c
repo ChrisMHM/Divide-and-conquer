@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include "matrix.h"
 
+void printSquareMatrix(Matrix _matrix);
+
+
 Matrix matrix1 = NULL;
 Matrix matrix2 = NULL;
 
@@ -17,7 +20,8 @@ void printMenu() {
     printf("1) Create Matrix\n");
     printf("2) Assign value\n");
     printf("3) Get value\n");
-    printf("4) Destroy Matrix\n\n");
+    printf("4) Multiply matrix\n");
+    printf("9) Destroy Matrix\n\n");
     printf("0) Exit\n\n");
 }
 
@@ -42,7 +46,7 @@ void startMatrix() {
 
         printf("\n\nMatrix 1: \n\n");
         printSquareMatrix(matrix1);
-        
+    
         printf("\n\nMatrix 2: \n\n");
         printSquareMatrix(matrix2);
     
@@ -115,6 +119,11 @@ void manageAssignOrGetOption(int mode) {
 }
 
 
+void manageMultiplyOption() {
+    Matrix resultMatrix;
+    multiplyMatrix(matrix1, matrix2, &resultMatrix);
+}
+
 /*
  * Function that handles the events that could occur at the menu
  */
@@ -139,11 +148,13 @@ void manageMenu() {
                 manageAssignOrGetOption(0);
                 break;
                 
+            case 4:
+                manageMultiplyOption();
                 
             default:
                 break;
                 
-            case 4:
+            case 9:
                 stopMatrix();
                 break;
         }
@@ -159,6 +170,28 @@ void manageMenu() {
 int main(int argc, const char * argv[]) {
     manageMenu();
     return 0;
+}
+
+
+/*
+ * Prints a square matrix on console
+ */
+void printSquareMatrix(Matrix _matrix) {
+    int rowSize = getSize(_matrix);
+    int matrixSize = rowSize * rowSize;
+    
+    if (_matrix != NULL) {
+        for (int i = 0; i < (matrixSize); i++) {
+            
+            if(i != 0 && i % rowSize == 0)
+                printf("\n");
+            
+            printf("%d\t", get(_matrix, i));
+        }
+        
+    } else {
+        printf("[ERROR] The matrix has not been initialized.\n");
+    }
 }
 
 

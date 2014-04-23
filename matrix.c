@@ -69,7 +69,7 @@ void fillSquareMatrixWithRandom(Matrix *_matrix) {
 //    srand(time(NULL));
     
     for (int i = 0; i < vectorSize; i++) {
-        MATRIX_ELEMENT_TYPE randomNumber = rand() % vectorSize + 1;
+        MATRIX_ELEMENT_TYPE randomNumber = rand() % 9;
         add(_matrix, i, randomNumber);
     }
 }
@@ -84,28 +84,6 @@ int getSize (Matrix _matrix) {
         _size = (_matrix) -> size;
     
     return _size;
-}
-
-
-/*
- * Prints a square matrix on console
- */
-void printSquareMatrix(Matrix _matrix) {
-    int rowSize = getSize(_matrix);
-    int matrixSize = rowSize * rowSize;
-    
-    if (_matrix != NULL) {
-        for (int i = 0; i < (matrixSize); i++) {
-            
-            if(i != 0 && i % rowSize == 0)
-                printf("\n");
-            
-            printf("%d\t", get(_matrix, i));
-        }
-        
-    } else {
-        printf("[ERROR] The matrix has not been initialized.\n");
-    }
 }
 
 
@@ -162,5 +140,20 @@ void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data) 
 void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data) {
     int index = getSize(matrix) * (row - 1) + column;
     *data = get(matrix, (index - 1));
+}
+
+
+/**
+ * Multiply two matrix and store the result into the result matrix given by parameter
+ */
+void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
+    int matrixSize = getSize(matrix1);
+    
+    if (matrixSize > 2) {
+        printf("I have to divide by n/2 = %d\n", matrixSize);
+    
+    } else {
+        printf("Trivial case n= %d\n", matrixSize);
+    }
 }
 
