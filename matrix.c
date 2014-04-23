@@ -146,3 +146,12 @@ MATRIX_ELEMENT_TYPE get(Matrix _matrix, int index) {
     return output;
 }
 
+
+/*
+ * Assing the given value in the given matrix at the given row and column
+ */
+void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data) {
+    int index = getSize(*matrix) * (row - 1) + column;
+    add(matrix, (index - 1), data);
+}
+

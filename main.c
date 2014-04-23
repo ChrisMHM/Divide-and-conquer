@@ -15,6 +15,7 @@ Matrix matrix2 = NULL;
 void printMenu() {
     printf("\n\nDivide and Conquer\n\n");
     printf("1) Create Matrix\n");
+    printf("2) Assign value\n");
     printf("4) Destroy Matrix\n\n");
     printf("0) Exit\n\n");
 }
@@ -54,6 +55,56 @@ void stopMatrix() {
     destroyMatrix(&matrix2);
 }
 
+void manageAssignOption() {
+    
+    if(matrix1 != NULL && matrix2 != NULL) {
+        MATRIX_ELEMENT_TYPE data;
+        Matrix selectedMatrix;
+        int row, column;
+        int choice = 0;
+
+        printf("\nInsert the data to assign:\n>");
+        scanf("%d", &data);
+        
+        while(choice <= 0 || choice >= 3) {
+            printf("\n\n1:\n\n");
+            printSquareMatrix(matrix1);
+            
+            printf("\n\n2:\n\n");
+            printSquareMatrix(matrix2);
+
+            printf("\n\nSelect the matrix\n>");
+            scanf("%d", &choice);
+        }
+        
+        selectedMatrix = (choice == 1) ? matrix1 : matrix2;
+
+        
+        int matrixSize = getSize(selectedMatrix);
+        
+    validate:
+        printf("Insert the row: \n> ");
+        scanf("%d", &row);
+        
+        printf("Insert the column: \n> ");
+        scanf("%d", &column);
+        
+
+        if(row > matrixSize || column > matrixSize || row < 0 || column <= 0) {
+            printf("\nInvalid row or column\n");
+            goto validate;
+        }
+        
+        assingValue(&matrix1, row, column, data);
+        
+        printf("\nModified matrix:\n");
+        printSquareMatrix(selectedMatrix);
+    
+    } else {
+        printf("[ERROR] The matrix cannot be null");
+    }
+}
+
 
 void manageMenu() {
     int selectedOption = 1;
@@ -66,6 +117,10 @@ void manageMenu() {
         switch (selectedOption) {
             case 1:
                 startMatrix();
+                break;
+                
+            case 2:
+                manageAssignOption();
                 break;
                 
             default:

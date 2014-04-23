@@ -15,3 +15,5 @@ void printSquareMatrix(Matrix _matrix);
 
 void destroyMatrix(Matrix *matrix);
 
+void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data);
+
