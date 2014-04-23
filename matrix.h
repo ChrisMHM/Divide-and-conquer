@@ -17,3 +17,4 @@ void destroyMatrix(Matrix *matrix);
 
 void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data);
 
+void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data);

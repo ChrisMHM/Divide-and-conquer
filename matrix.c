@@ -155,3 +155,12 @@ void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data) 
     add(matrix, (index - 1), data);
 }
 
+
+/*
+ * Get the given value in the given matrix at the given row and column
+ */
+void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data) {
+    int index = getSize(matrix) * (row - 1) + column;
+    *data = get(matrix, (index - 1));
+}
+

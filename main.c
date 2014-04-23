@@ -16,6 +16,7 @@ void printMenu() {
     printf("\n\nDivide and Conquer\n\n");
     printf("1) Create Matrix\n");
     printf("2) Assign value\n");
+    printf("3) Get value\n");
     printf("4) Destroy Matrix\n\n");
     printf("0) Exit\n\n");
 }
@@ -50,12 +51,16 @@ void startMatrix() {
     }
 }
 
+
+/*
+ * This method destroys both matrix
+ */
 void stopMatrix() {
     destroyMatrix(&matrix1);
     destroyMatrix(&matrix2);
 }
 
-void manageAssignOption() {
+void manageAssignOrGetOption(int mode) {
     
     if(matrix1 != NULL && matrix2 != NULL) {
         MATRIX_ELEMENT_TYPE data;
@@ -63,8 +68,10 @@ void manageAssignOption() {
         int row, column;
         int choice = 0;
 
-        printf("\nInsert the data to assign:\n>");
-        scanf("%d", &data);
+        if(mode == 1) {
+            printf("\nInsert the data to assign:\n>");
+            scanf("%d", &data);
+        }
         
         while(choice <= 0 || choice >= 3) {
             printf("\n\n1:\n\n");
@@ -78,8 +85,6 @@ void manageAssignOption() {
         }
         
         selectedMatrix = (choice == 1) ? matrix1 : matrix2;
-
-        
         int matrixSize = getSize(selectedMatrix);
         
     validate:
@@ -95,7 +100,11 @@ void manageAssignOption() {
             goto validate;
         }
         
-        assingValue(&matrix1, row, column, data);
+        if(mode == 0) {
+            MATRIX_ELEMENT_TYPE toGet;
+            getValue(matrix1, row, column, &toGet);
+            printf("To get... %d\n", toGet);
+        }
         
         printf("\nModified matrix:\n");
         printSquareMatrix(selectedMatrix);
@@ -106,6 +115,9 @@ void manageAssignOption() {
 }
 
 
+/*
+ * Function that handles the events that could occur at the menu
+ */
 void manageMenu() {
     int selectedOption = 1;
     
@@ -120,8 +132,13 @@ void manageMenu() {
                 break;
                 
             case 2:
-                manageAssignOption();
+                manageAssignOrGetOption(1);
                 break;
+                
+            case 3:
+                manageAssignOrGetOption(0);
+                break;
+                
                 
             default:
                 break;
@@ -136,6 +153,9 @@ void manageMenu() {
 }
 
 
+/*
+ * Main method, first being called
+ */
 int main(int argc, const char * argv[]) {
     manageMenu();
     return 0;
