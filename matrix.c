@@ -186,19 +186,15 @@ void multiply2x2Matrix(Matrix matrix1, Matrix matrix2, Matrix * matrixResult) {
  */
 void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
     int matrixSize = getSize(matrix1);
-    int subMatrix1Value;
+    int subMatrix1Value = 0;
     Matrix temporalMatrix1 = NULL;
 
     if(matrixResult == NULL) {
-        printf("Creating result matrix with a size of : %d\n", matrixSize);
         createSquareMatrix(matrixResult, matrixSize);
     }
     
-    printf("Matrix size of: %d\n", matrixSize);
-    
     if (matrixSize > 2) {
         int subMatrixSize = matrixSize / 2;
-        printf("Sub matrix size: %d\n", subMatrixSize);
         
         for (int subMatrixOffset = 0; subMatrixOffset < 4; subMatrixOffset++) {
             createSquareMatrix(&temporalMatrix1, subMatrixSize);
@@ -206,23 +202,25 @@ void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
             for (int  row= 0; row < subMatrixSize; row++) {
                
                 for (int column = 0; column < subMatrixSize; column++) {
-                    
-                    // If is a diagonal submatrix this value will be 0, otherwise 1
+                
                     int isDiagonalSubMatrix = subMatrixOffset % 2;
                     int isBottomSubMatrix = subMatrixOffset > 1;
-                    
     
-                    printf("[%d, %d]\n",row + (subMatrixSize * isBottomSubMatrix)  , column + (subMatrixSize * isDiagonalSubMatrix));
+                    int rowPos = row + (subMatrixSize * isBottomSubMatrix);
+                    int columnPos = column + (subMatrixSize * isDiagonalSubMatrix);
+            
+                    getValue(matrix1, rowPos, columnPos, &subMatrix1Value);
+                    assingValue(&temporalMatrix1, row, column, subMatrix1Value);
                     
-
-
+                    // printf("[%d, %d] = %d\n", rowPos, columnPos ,subMatrix1Value);
+                
                 }
             }
             
             printf("\n\n");
-            //printf("\n\nQuadrant [%d]\n", subMatrixOffset);
-            //printf("\n\n Result matrix 1\n\n");
-            //printSquareMatrix(temporalMatrix1);
+            printSquareMatrix(temporalMatrix1);
+
+            
         
             //multiplyMatrix(temporalMatrix1, temporalMatrix2, matrixResult);
             destroyMatrix(&temporalMatrix1);
