@@ -33,12 +33,28 @@ void printMenu() {
  */
 void startMatrix() {
     int squareMatrixSize = 0;
+    int validateFlag = 1;
     
     // Validation metodology, the matrix size must be greater than 1 and the size must be power of 2
-    while (squareMatrixSize < 2 && ((squareMatrixSize & (squareMatrixSize - 1)) == 0)) {
+    while (validateFlag == 1) {
+    // while (((squareMatrixSize & (squareMatrixSize - 1)) == 0) || squareMatrixSize < 2) {
+        
         printf("\nEnter the size of your square matrix:\n>");
         scanf("%d", &squareMatrixSize);
+    
+        if (squareMatrixSize < 2) {
+            printf("[ERROR] The matrix smaller size is 2\n");
+    
+        } else if ((squareMatrixSize & (squareMatrixSize - 1)) != 0) {
+            printf("[ERROR] The matrix size must be power of two\n");
+        
+        } else {
+            validateFlag = 0;
+        }
     }
+    
+    
+    
 
     int created1 = createSquareMatrix(&matrix1, squareMatrixSize);
     int created2 = createSquareMatrix(&matrix2, squareMatrixSize);
@@ -175,28 +191,6 @@ void manageMenu() {
 int main(int argc, const char * argv[]) {
     manageMenu();
     return 0;
-}
-
-
-/*
- * Prints a square matrix on console
- */
-void printSquareMatrix(Matrix _matrix) {
-    int rowSize = getSize(_matrix);
-    int matrixSize = rowSize * rowSize;
-    
-    if (_matrix != NULL) {
-        for (int i = 0; i < (matrixSize); i++) {
-            
-            if(i != 0 && i % rowSize == 0)
-                printf("\n");
-            
-            printf("%d\t", get(_matrix, i));
-        }
-        
-    } else {
-        printf("[ERROR] The matrix has not been initialized.\n");
-    }
 }
 
 

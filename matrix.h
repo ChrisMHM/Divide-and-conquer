@@ -18,3 +18,5 @@ void assingValue(Matrix *matrix, int row, int column, MATRIX_ELEMENT_TYPE data);
 void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data);
 
 void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult);
+
+void printSquareMatrix(Matrix _matrix);

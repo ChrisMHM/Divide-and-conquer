@@ -22,7 +22,6 @@ typedef _MATRIX * Matrix;
 int createSquareMatrix(Matrix *matrix, int rowSize) {
     unsigned long i = 0;
     int matrixSize = rowSize * rowSize;
-    printf("matrix size: %d\n", matrixSize);
     
     if(*matrix == NULL) {
         *matrix = (Matrix) malloc (sizeof(Matrix));
@@ -100,6 +99,29 @@ void destroyMatrix(Matrix *matrix) {
 
 
 /*
+ * Prints a square matrix on console
+ */
+void printSquareMatrix(Matrix _matrix) {
+    int rowSize = getSize(_matrix);
+    int matrixSize = rowSize * rowSize;
+    
+    if (_matrix != NULL) {
+        for (int i = 0; i < (matrixSize); i++) {
+            
+            if(i != 0 && i % rowSize == 0)
+                printf("\n");
+            
+            printf("%d\t", get(_matrix, i));
+        }
+        
+    } else {
+        printf("[ERROR] The matrix has not been initialized.\n");
+    }
+}
+
+
+
+/*
  * Returns the element of the matrix at the position given at parameter
  */
 MATRIX_ELEMENT_TYPE get(Matrix _matrix, int index) {
@@ -144,14 +166,44 @@ void getValue(Matrix matrix, int row, int column, MATRIX_ELEMENT_TYPE *data) {
  * Multiply two matrix and store the result into the result matrix given by parameter
  */
 void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
-    int matrixSize = getSize(matrix1);
     int container =0;
+    int subMatrix1Value, subMatrix2Value;
+    int matrixSize = getSize(matrix1);
+    Matrix temporalMatrix1 = NULL;
+    Matrix temporalMatrix2 = NULL;
+
     
+
+    printf("Creating result matrix with a size of : %d\n", matrixSize);
     createSquareMatrix(matrixResult, matrixSize);
-    
+
     if (matrixSize > 2) {
-        // TODO
-    
+        
+        int subMatrixSize = matrixSize /2;
+        printf("Sub matrix size: %d\n", subMatrixSize);
+        
+        for (int subMatrixOffset=0; subMatrixOffset < 4; subMatrixOffset++) {
+            createSquareMatrix(&temporalMatrix1, subMatrixSize);
+            createSquareMatrix(&temporalMatrix2, subMatrixSize);
+            
+            for (int  column= 0; column < subMatrixSize; column++) {
+                for (int row = 0; row < subMatrixSize; row++) {
+                    getValue(matrix1, column, subMatrixOffset + row, &subMatrix1Value);
+                    getValue(matrix2, column, subMatrixOffset + row, &subMatrix2Value);
+                    assingValue(&temporalMatrix1, column, row, subMatrix1Value);
+                    assingValue(&temporalMatrix2, column, row, subMatrix2Value);
+                }
+            }
+            
+            printf("\n\n Result matrix 1\n\n");
+            printSquareMatrix(temporalMatrix1);
+            
+            printf("\n\n Result matrix 2\n\n");
+            printSquareMatrix(temporalMatrix2);
+            
+        }
+        
+        
     } else {
         int value1, value2;
         
@@ -169,5 +221,9 @@ void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
         }
     }
 }
+
+
+
+
 
 
