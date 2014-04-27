@@ -204,17 +204,15 @@ void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
             createSquareMatrix(&temporalMatrix1, subMatrixSize);
             
             for (int  row= 0; row < subMatrixSize; row++) {
-                
+               
                 for (int column = 0; column < subMatrixSize; column++) {
                     
-                    printf("Diagonal quadrant: %d - %d = %d\n ", subMatrixOffset, subMatrixSize, (subMatrixOffset % subMatrixSize));
+                    // If is a diagonal submatrix this value will be 0, otherwise 1
+                    int isDiagonalSubMatrix = subMatrixOffset % 2;
+                    int isBottomSubMatrix = subMatrixOffset > 1;
                     
-                    int diagonalQuadrant = subMatrixOffset % subMatrixSize;
-                    int columnPos = column + diagonalQuadrant * subMatrixSize;
-                    int rowPos = (subMatrixOffset >= subMatrixSize) ? row + subMatrixSize : row;
-                    
-
-                    printf("[%d, %d]\n", rowPos, columnPos);
+    
+                    printf("[%d, %d]\n",row + (subMatrixSize * isBottomSubMatrix)  , column + (subMatrixSize * isDiagonalSubMatrix));
                     
 
 
