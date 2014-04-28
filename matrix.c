@@ -15,6 +15,8 @@ typedef struct {
 
 typedef _MATRIX * Matrix;
 
+// Matrix multiplication Divide & conquer order
+int operations[16] = {1, 1, 2, 3, 1, 2, 2, 4, 3, 1, 4, 3, 3, 2, 4 ,4};
 
 /**
  * Creates a square Matrix
@@ -199,114 +201,84 @@ void copyQuadrant(Matrix bigMatrix, Matrix * subMatrix, int quadrant) {
     }
 }
 
+
+void assignCuadrant(Matrix subMatrix, Matrix * bigMatrix, int quadrant) {
+    int subMatrixSize = getSize(subMatrix);
+    int matrixValue;
+    
+    for (int  row= 0; row < subMatrixSize; row++) {
+        for (int column = 0; column < subMatrixSize; column++) {
+            int isDiagonalSubMatrix = quadrant % 2;
+            int isBottomSubMatrix = quadrant > 1;
+            
+            int rowPos = row + (subMatrixSize * isBottomSubMatrix);
+            int columnPos = column + (subMatrixSize * isDiagonalSubMatrix);
+            
+            getValue(subMatrix, row, column, &matrixValue);
+            assingValue(bigMatrix, rowPos, columnPos, matrixValue);
+        }
+    }
+}
+
+
 /**
  * Multiply two matrix and store the result into the result matrix given by parameter
  */
-void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
-    int matrixSize = getSize(matrix1);
-        createSquareMatrix(matrixResult, matrixSize);
+void multiplyCoolMatrix(Matrix matrixA, Matrix matrixB, Matrix* matrixResult) {
+
+    int matrixSize = getSize(matrixA);
+    createSquareMatrix(matrixResult, matrixSize);
     
     if (matrixSize > 2) {
-        Matrix a1 = NULL, a2 = NULL, a3 = NULL, a4 = NULL, b1 = NULL, b2 = NULL, b3 = NULL, b4 = NULL, sol1 = NULL, sol2 = NULL, sol3 = NULL, sol4 = NULL, temporalMatrix1 = NULL, temporalMatrix2 = NULL;
-
         int subMatrixSize = matrixSize / 2;
-        createSquareMatrix(&temporalMatrix1, subMatrixSize);
-        createSquareMatrix(&temporalMatrix2, subMatrixSize);
         
-        createSquareMatrix(&sol1, subMatrixSize);
-        createSquareMatrix(&sol2, subMatrixSize);
-        createSquareMatrix(&sol3, subMatrixSize);
-        createSquareMatrix(&sol4, subMatrixSize);
+        // Auxiliar variables
+        Matrix auxMatrixA1 = NULL, auxMatrixB1 = NULL, auxMatrixA2 = NULL, auxMatrixB2 = NULL;
+        Matrix auxContainer1 = NULL, auxContainer2 = NULL, solutionContainer = NULL;
         
-        // A submatrix creation
-        createSquareMatrix(&a1, subMatrixSize);
-        copyQuadrant(matrix1, &a1, 0);
-        
-        createSquareMatrix(&a2, subMatrixSize);
-        copyQuadrant(matrix1, &a2, 1);
-        
-        createSquareMatrix(&a3, subMatrixSize);
-        copyQuadrant(matrix1, &a3, 2);
-        
-        createSquareMatrix(&a4, subMatrixSize);
-        copyQuadrant(matrix1, &a4, 3);
-        
-        // B submatrix creation
-        createSquareMatrix(&b1, subMatrixSize);
-        copyQuadrant(matrix2, &b1, 0);
-        
-        createSquareMatrix(&b2, subMatrixSize);
-        copyQuadrant(matrix2, &b2, 1);
-        
-        createSquareMatrix(&b3, subMatrixSize);
-        copyQuadrant(matrix2, &b3, 2);
-        
-        createSquareMatrix(&b4, subMatrixSize);
-        copyQuadrant(matrix2, &b4, 3);
-   
+        createSquareMatrix(&solutionContainer, subMatrixSize);
+        createSquareMatrix(&auxMatrixA1, subMatrixSize);
+        createSquareMatrix(&auxMatrixB1, subMatrixSize);
+        createSquareMatrix(&auxMatrixA2, subMatrixSize);
+        createSquareMatrix(&auxMatrixB2, subMatrixSize);
+        createSquareMatrix(&auxContainer1, subMatrixSize);
+        createSquareMatrix(&auxContainer2, subMatrixSize);
 
-        multiplyMatrix(a1, b1, &temporalMatrix1);
-        multiplyMatrix(a2, b3, &temporalMatrix2);
-        sumMatrix(temporalMatrix1, temporalMatrix2, &sol1);
-        
-        multiplyMatrix(a1, b2, &temporalMatrix1);
-        multiplyMatrix(a2, b4, &temporalMatrix2);
-        sumMatrix(temporalMatrix1, temporalMatrix2, &sol2);
-        
-        multiplyMatrix(a3, b1, &temporalMatrix1);
-        multiplyMatrix(a4, b3, &temporalMatrix2);
-        sumMatrix(temporalMatrix1, temporalMatrix2, &sol3);
-        
-        multiplyMatrix(a3, b2, &temporalMatrix1);
-        multiplyMatrix(a4, b4, &temporalMatrix2);
-        sumMatrix(temporalMatrix1, temporalMatrix2, &sol4);
-        
+        int operation1Index = 0;
+        for(short quadrant = 0; quadrant < 4; quadrant++) {
+            operation1Index += 4;
+ 
+            copyQuadrant(matrixA, &auxMatrixA1, operations[operation1Index -4]);
+            copyQuadrant(matrixB, &auxMatrixB1, operations[operation1Index -3]);
+            multiplyCoolMatrix(auxMatrixA1, auxMatrixB1, &auxContainer1);
+            
+            copyQuadrant(matrixA, &auxMatrixA2, operations[operation1Index -2]);
+            copyQuadrant(matrixB, &auxMatrixB2, operations[operation1Index -1]);
+            multiplyCoolMatrix(auxMatrixA2, auxMatrixB2, &auxContainer2);
+            
+            sumMatrix(auxContainer1, auxContainer2, &solutionContainer);
+            assignCuadrant(solutionContainer, matrixResult, quadrant);
 
-        printf("\nSol 1\n");
-        printSquareMatrix(sol1);
-
-        printf("\nSol 2\n");
-        printSquareMatrix(sol2);
-
-        
-        printf("\nSol 3\n");
-        printSquareMatrix(sol3);
-
-        printf("\nSol 4\n");
-        printSquareMatrix(sol4);
-
-        
-        int c1, c2, c3, c4;
-        for(int row=0; row < subMatrixSize; row++) {
-            for(int column=0;column < subMatrixSize ; column++) {
-                
-                getValue(sol1, row, column, &c1);
-                assingValue(matrixResult, row, column, c1);
-                
-                getValue(sol3, row, column, &c3);
-                assingValue(matrixResult, row + subMatrixSize, column, c3);
-                
-
-                getValue(sol2, row, column, &c2);
-                assingValue(matrixResult, row, column + subMatrixSize, c2);
-                
-
-                getValue(sol4, row, column, &c4);
-                assingValue(matrixResult, row + subMatrixSize, column + subMatrixSize, c4);
-            }
         }
         
-        
+        destroyMatrix(&auxMatrixA1);
+        destroyMatrix(&auxMatrixB1);
+        destroyMatrix(&auxMatrixA2);
+        destroyMatrix(&auxMatrixB2);
+        destroyMatrix(&auxContainer1);
+        destroyMatrix(&auxContainer2);
+        destroyMatrix(&solutionContainer);
+    
     } else {
         int value1, value2, container = 0;
-        int matrixSize = getSize(matrix1);
+        int matrixSize = getSize(matrixA);
         
         
         for (int i = 0; i < matrixSize; i++) {
             for (int j = 0; j < matrixSize; j++) {
                 for (int k= 0; k < matrixSize; k++) {
-                    getValue(matrix1, j, k, &value1);
-                    getValue(matrix2, k, i, &value2);
+                    getValue(matrixA, j, k, &value1);
+                    getValue(matrixB, k, i, &value2);
                     container += value1 * value2;
                 }
                 
@@ -315,7 +287,9 @@ void multiplyMatrix(Matrix matrix1, Matrix matrix2, Matrix* matrixResult) {
             }
         }
     }
+    
 }
+
 
 
 

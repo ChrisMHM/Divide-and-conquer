@@ -140,7 +140,7 @@ void manageAssignOrGetOption(int mode) {
 
 void manageMultiplyOption() {
     Matrix resultMatrix = NULL;
-    multiplyMatrix(matrix1, matrix2, &resultMatrix);
+    multiplyCoolMatrix(matrix1, matrix2, &resultMatrix);
     printf("\nMultiplied Matrix..\n");
     printSquareMatrix(resultMatrix);
 }
